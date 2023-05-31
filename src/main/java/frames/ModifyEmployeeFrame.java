@@ -5,18 +5,24 @@ package frames;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import database.DatabaseHelper;
 
-public class AddOrModifyEmployeeFrame extends JFrame implements ActionListener {
+public class ModifyEmployeeFrame extends JFrame implements ActionListener {
     JTextField employeeNumberField, lastNameField, firstNameField, extensionField, officeCodeField, reportsToField, jobTitleField, emailField;
     JLabel employeeNumberLabel, lastNameLabel, firstNameLabel, extensionLabel, officeCodeLabel, reportsToLabel, jobTitleLabel, emailLabel;
     JButton submitButton;
+    JComboBox<Integer> officeCodeComboBox;
+    JComboBox<Integer> employeeNumberComboBox;
     
-    public AddOrModifyEmployeeFrame() {
-        super("Add or Modify Employee");
+    
+    public ModifyEmployeeFrame() {
+        super("Modify employee");
         setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -27,9 +33,12 @@ public class AddOrModifyEmployeeFrame extends JFrame implements ActionListener {
         c.gridx = 0;
         c.gridy = 0;
         add(employeeNumberLabel, c);
-        employeeNumberField = new JTextField(20);
+        employeeNumberComboBox = new JComboBox<>();
         c.gridx = 1;
-        add(employeeNumberField, c);
+        add(employeeNumberComboBox, c);
+        
+        List<Integer> employeeNumberList = getEmployeeNumberFromDatabase();
+        updateEmployeeNumberComboBox(employeeNumberList);
 
         lastNameLabel = new JLabel("Last Name");
         c.gridx = 0;
@@ -67,9 +76,12 @@ public class AddOrModifyEmployeeFrame extends JFrame implements ActionListener {
         c.gridx = 0;
         c.gridy++;
         add(officeCodeLabel, c);
-        officeCodeField = new JTextField(20);
+        officeCodeComboBox = new JComboBox<>();
         c.gridx = 1;
-        add(officeCodeField, c);
+        add(officeCodeComboBox, c);
+        
+        List<Integer> officeCodeList = getOfficeCodesFromDatabase();
+        updateOfficeCodeComboBox(officeCodeList);
 
         reportsToLabel = new JLabel("Reports To");
         c.gridx = 0;
@@ -111,15 +123,79 @@ public class AddOrModifyEmployeeFrame extends JFrame implements ActionListener {
     	DatabaseHelper db = new DatabaseHelper();
     	try {
 			db.open();
-			db.insertEmployee(Integer.parseInt(employeeNumberField.getText()), lastNameField.getText(), firstNameField.getText(), extensionField.getText(), emailField.getText() ,Integer.parseInt(officeCodeField.getText()), Integer.parseInt(reportsToField.getText()), jobTitleField.getText());
+			db.insertEmployee(Integer.parseInt(employeeNumberField.getText()), lastNameField.getText(), firstNameField.getText(), extensionField.getText(), emailField.getText() ,(int)officeCodeComboBox.getSelectedItem(), Integer.parseInt(reportsToField.getText()), jobTitleField.getText());
 			db.close();
+			
+            String message = "Employee registered";
+            JOptionPane.showMessageDialog(this, message);
 			
 			setVisible(false); 
 			dispose(); 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+            String message = "Employee not registered";
+            JOptionPane.showMessageDialog(this, message);
 			e.printStackTrace();
 		}
+    }
+    
+    private List<Integer> getOfficeCodesFromDatabase() {
+        List<Integer> offices = new ArrayList<>();
+
+        	DatabaseHelper db = new DatabaseHelper();
+
+        	ResultSet resultSet;
+			try {
+	        	db.open();
+				resultSet = db.selectSql("SELECT DISTINCT officeCode FROM offices");
+				
+	            while (resultSet.next()) {
+	                int tmp = resultSet.getInt("officeCode");
+	                offices.add(tmp);
+	            }
+	            
+	            return offices;
+			} catch (SQLException e) {
+			
+				e.printStackTrace();
+			}  	
+        return offices;
+    }
+    
+    private List<Integer> getEmployeeNumberFromDatabase() {
+        List<Integer> employees = new ArrayList<>();
+
+        	DatabaseHelper db = new DatabaseHelper();
+
+        	ResultSet resultSet;
+			try {
+	        	db.open();
+				resultSet = db.selectSql("SELECT DISTINCT employeeNumber FROM employees");
+				
+	            while (resultSet.next()) {
+	                int tmp = resultSet.getInt("employeeNumber");
+	                employees.add(tmp);
+	            }
+	            
+	            return employees;
+			} catch (SQLException e) {
+			
+				e.printStackTrace();
+			}  	
+        return employees;
+    }
+    
+    private void updateOfficeCodeComboBox(List<Integer> items) {
+        officeCodeComboBox.removeAllItems();
+        for (Integer item : items) {
+            officeCodeComboBox.addItem(item);
+        }
+    }
+    
+    private void updateEmployeeNumberComboBox(List<Integer> items) {
+        employeeNumberComboBox.removeAllItems();
+        for (Integer item : items) {
+            employeeNumberComboBox.addItem(item);
+        }
     }
     	
 

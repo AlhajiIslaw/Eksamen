@@ -19,8 +19,10 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import database.DatabaseHelper;
-import frames.AddOrModifyEmployeeFrame;
+import frames.AboutThisApp;
+import frames.AddEmployeeFrame;
 import frames.ListAllProducts;
+import frames.TestDatabaseFrame;
 
 
 public class ApplicationMenu extends JMenuBar implements ActionListener {
@@ -85,7 +87,7 @@ public class ApplicationMenu extends JMenuBar implements ActionListener {
 		executeSqlItem = new JMenuItem("Execute SQL query");
 		executeSqlItem.addActionListener(this);
 		
-		addOrModifyItem = new JMenuItem("Add or modify employee");
+		addOrModifyItem = new JMenuItem("Add employee");
 		addOrModifyItem.addActionListener(this);
 		
 		listAllProductsItem = new JMenuItem("List all products");
@@ -121,23 +123,14 @@ public class ApplicationMenu extends JMenuBar implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String arg = event.getActionCommand();
 		if (arg.equals("Test database connection")) {
-			try {
-				DatabaseHelper db = new DatabaseHelper();
-				db.open();
-				db.test();
-				db.close();
-				displayMessage("Connection tested succesfully!");
-			} catch (Exception e) {
-				displayMessage("Error with the connection!");
-			}	
+			 new TestDatabaseFrame();
+    	
+
 		}else if (arg.equals("Exit")) {
 			System.exit(0);		
 		}else if (arg.equals("About")) {
-			JTextArea helptext = new JTextArea("This is the small application example\n\n- It provides the display of basic functionality\n- You are allowed to use its structure\n- You can upgrade it for a higher grade");
-			helptext.setEditable(false);
-			helptext.setOpaque(false);
-			helptext.setFont(bigFont);
-			JOptionPane.showMessageDialog(this, helptext, "About the application", JOptionPane.INFORMATION_MESSAGE);
+			AboutThisApp frame = new AboutThisApp();
+            frame.showMessage();
 		}
 		else if (arg.equals("List all products")) {
 			try {
@@ -147,9 +140,13 @@ public class ApplicationMenu extends JMenuBar implements ActionListener {
 				e.printStackTrace();
 			}
 		}
-		else if (arg.equals("Add or modify employee")) {
-			AddOrModifyEmployeeFrame frame = new AddOrModifyEmployeeFrame();
+		else if (arg.equals("Add employee")) {
+			AddEmployeeFrame frame = new AddEmployeeFrame();
 		}
+		
+
+		
+		
 	}
 
 	// simple method that display option pane with the provided message

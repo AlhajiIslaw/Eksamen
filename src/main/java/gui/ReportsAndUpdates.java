@@ -3,7 +3,7 @@ package gui;
 	import javax.swing.JLabel;
 	import javax.swing.JPanel;
 
-import frames.AddOrModifyEmployeeFrame;
+import frames.AddEmployeeFrame;
 import frames.ListAllProducts;
 import frames.ListOfficesFrame;
 
@@ -24,7 +24,8 @@ import java.awt.Font;
 	   
 	        setLayout(new GridBagLayout());
                 
-	        JButton addModifyEmployeeButton = new JButton("Add or Modify Employee");
+	        JButton addModifyEmployeeButton = new JButton("Add Employee");
+	        JButton modifyEmployeeButton = new JButton("Modify Employee");
 	        JButton listAllProductsButton = new JButton("List All Products");
 	        JButton listAllOfficesButton = new JButton("List All Offices");
 	        JButton bulkImportOrdersButton = new JButton("Bulk Import of Orders");
@@ -47,17 +48,21 @@ import java.awt.Font;
 	        
 	        buttonConstraints.gridx = 0;
 	        this.add(addModifyEmployeeButton, buttonConstraints);
-	       
+	        
 	        buttonConstraints.gridx = 1;
+	        this.add(modifyEmployeeButton, buttonConstraints);
+	        
+	        buttonConstraints.gridx = 2;
 	        this.add(listAllProductsButton, buttonConstraints);
 
-	        buttonConstraints.gridx = 2;
+	        buttonConstraints.gridx = 3;
 	        this.add(listAllOfficesButton, buttonConstraints);
 
-	        buttonConstraints.gridx = 3;
+	        buttonConstraints.gridx = 4;
 	        this.add(bulkImportOrdersButton, buttonConstraints);
 
 	        addModifyEmployeeButton.addActionListener(this);
+	        modifyEmployeeButton.addActionListener(this); 
 	        listAllProductsButton.addActionListener(this);
 	        listAllOfficesButton.addActionListener(this);
 	        bulkImportOrdersButton.addActionListener(this);       
@@ -66,9 +71,9 @@ import java.awt.Font;
 	    // Define the action to perform when a button is clicked
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-	        if (e.getActionCommand().equals("Add or Modify Employee")) {
+	        if (e.getActionCommand().equals("Add Employee")) {
 	            System.out.println("Add or Modify Employee button clicked");
-	           AddOrModifyEmployeeFrame frame = new AddOrModifyEmployeeFrame();
+	           AddEmployeeFrame frame = new AddEmployeeFrame();
 	        } else if (e.getActionCommand().equals("List All Products")) {
 	            System.out.println("List All Products button clicked");
                    try {
@@ -88,6 +93,7 @@ import java.awt.Font;
 	        } else if (e.getActionCommand().equals("Bulk Import of Orders")) {
 	            System.out.println("Bulk Import of Orders button clicked");
 	            // Perform action for bulk import orders button
+	            
 	        }
 	    }	    
 }

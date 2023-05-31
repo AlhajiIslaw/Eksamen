@@ -17,6 +17,7 @@ public class listOfCustomers extends JPanel {
     private JRadioButton cityRadioButton;
     private JRadioButton stateRadioButton;
     private JComboBox<String> selectionComboBox;
+    private JButton writeListButton;
 
     public listOfCustomers() {
        super();
@@ -26,6 +27,7 @@ public class listOfCustomers extends JPanel {
         cityRadioButton = new JRadioButton("City");
         stateRadioButton = new JRadioButton("State");
         selectionComboBox = new JComboBox<>();
+        writeListButton = new JButton("Write customer list");
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(cityRadioButton);
@@ -45,6 +47,14 @@ public class listOfCustomers extends JPanel {
 
         gbc.gridx = 1;
         contentPanel.add(selectionComboBox, gbc);
+        
+        
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        contentPanel.add(writeListButton, gbc);
+        
+        
 
         setLayout(new BorderLayout());
         add(radioPanel, BorderLayout.NORTH);

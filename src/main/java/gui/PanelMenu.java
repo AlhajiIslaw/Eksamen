@@ -6,17 +6,18 @@ import java.awt.Font;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import database.DatabaseHelper;
 import frames.ListOfficesFrame;
 import frames.TestDatabaseFrame;
 import frames.AboutThisApp;
@@ -50,7 +51,6 @@ public class PanelMenu extends JPanel implements ActionListener {
         // Position the first button at (0,0)
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(10, 10, 10, 10);
         this.add(button1, c);
 
         // Position the second button at (0,1)
@@ -58,24 +58,22 @@ public class PanelMenu extends JPanel implements ActionListener {
         add(button2, c);
 
         // Position the third button at (0,2)
+        c.weighty = 0;
         c.gridx = 0;
         c.gridy = 4;
         this.add(button3, c);
 
         // Add an invisible component that takes up all the extra space
-        c.weighty = 1.0;
+        c.weighty = 4;
         c.gridx = 0;
-        c.gridy = 3;
-        c.fill = GridBagConstraints.VERTICAL;
+        c.gridy = 1;
         this.add(new JPanel(), c); // Adding a new empty JPanel
 
         // Position the fourth button at (0,4) - at the bottom of the panel
         c.weighty = 0; // Reset to default
         c.gridx = 0;
-        c.gridy = 2;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 3;
         this.add(button4, c);
-    
     }
 
     @Override
